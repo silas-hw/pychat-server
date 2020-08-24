@@ -67,9 +67,8 @@ def handle_client(conn, addr):
             break
 
     clients.remove(conn)
+    send(Message(f"[b]{addr[0]}[/b] disconnected", server_user))
     conn.close()
-
-    send(f"[b]{addr[0]}[/b] disconnected")
 
 def start():
     server.listen()
