@@ -58,18 +58,14 @@ def handle_client(conn, addr):
                 if msg.content == DISCONNET_MESSAGE:
                     logging.info(f"[CONNECTION ENDED] {addr} disconnected")
                     send(msg, conn)
-                    send(Message(f"{addr} disconnected: client closed", server_user))
                     break
                 
                 send(msg)
             
         except Exception as e:
-            logging.error(e)
-        
-        finally:
-            send(Message(f"{addr} disconnected: connection was forcefully closed by remote host", server_user))
+            logging.error(f"[CONNECTION ENDED] {addr} forcible closed")
             break
-            
+
     clients.remove(conn)
     conn.close()
 
