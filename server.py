@@ -63,7 +63,7 @@ def handle_client(conn, addr):
                 send(msg)
             
         except Exception as e:
-            logging.error(f"[CONNECTION ENDED] {addr} forcible closed")
+            logging.error(f"[CONNECTION ENDED] {addr} forcibly closed")
             break
 
     clients.remove(conn)
