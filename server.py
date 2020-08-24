@@ -57,7 +57,6 @@ def handle_client(conn, addr):
 
                 if msg.content == DISCONNET_MESSAGE:
                     logging.info(f"[CONNECTION ENDED] {addr} disconnected")
-                    send(msg, conn)
                     break
                 
                 send(msg)
