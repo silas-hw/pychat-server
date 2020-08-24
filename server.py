@@ -54,7 +54,7 @@ def handle_client(conn, addr):
             msg = pickle.loads(msg)
 
             if msg.content == DISCONNET_MESSAGE:
-                print(f"[CONNECTION ENDED] {addr} disconnected")
+                logging.info(f"[CONNECTION ENDED] {addr} disconnected")
                 send(msg, conn)
                 break
             
