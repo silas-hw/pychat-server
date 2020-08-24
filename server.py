@@ -47,6 +47,7 @@ def handle_client(conn, addr):
     connected = True
     while connected:
         try:
+
             msgHeader = conn.recv(HEADER).decode(FORMAT)
             if msgHeader:
                 msgLength = int(msgHeader)
@@ -57,6 +58,7 @@ def handle_client(conn, addr):
                 if msg.content == DISCONNET_MESSAGE:
                     logging.info(f"[CONNECTION ENDED] {addr} disconnected")
                     send(msg, conn)
+                    send(Message(f"{addr} disconnected: client closed", server_user))
                     break
                 
                 send(msg)
@@ -65,6 +67,7 @@ def handle_client(conn, addr):
             logging.error(e)
         
         finally:
+            send(Message(f"{addr} disconnected: connection was forcefully closed by remote host", server_user))
             break
             
     clients.remove(conn)
