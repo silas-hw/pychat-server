@@ -46,20 +46,27 @@ def handle_client(conn, addr):
 
     connected = True
     while connected:
-        msgHeader = conn.recv(HEADER).decode(FORMAT)
-        if msgHeader:
-            msgLength = int(msgHeader)
-            msg = conn.recv(msgLength)
-            
-            msg = pickle.loads(msg)
+        try:
+            msgHeader = conn.recv(HEADER).decode(FORMAT)
+            if msgHeader:
+                msgLength = int(msgHeader)
+                msg = conn.recv(msgLength)
+                
+                msg = pickle.loads(msg)
 
-            if msg.content == DISCONNET_MESSAGE:
-                logging.info(f"[CONNECTION ENDED] {addr} disconnected")
-                send(msg, conn)
-                break
+                if msg.content == DISCONNET_MESSAGE:
+                    logging.info(f"[CONNECTION ENDED] {addr} disconnected")
+                    send(msg, conn)
+                    break
+                
+                send(msg)
             
-            send(msg)
-    
+        except Exception as e:
+            logging.error(e)
+        
+        finally:
+            break
+            
     clients.remove(conn)
     conn.close()
 
